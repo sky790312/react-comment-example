@@ -3,26 +3,16 @@
 // Markdown
 var converter = new Showdown.converter();
 
-var Comment = React.createClass({
-  render: function() {
-    // Markdown to pure string
-    var rawMarkup = converter.makeHtml(this.props.children.toString());
-
-    // dangerouslySetInnerHTML - prevent xss attck - warn not to use
-    return (
-      <div className="Comment">
-        <h2 className="commentAuthor">{this.props.author}</h2>
-        <span dangerouslySetInnerHTML = {{__html: rawMarkup}} />
-      </div>
-    );
-  }
-});
-
 // biggest component, all login putting here
 var CommentBox = React.createClass({
   // doing once init data state
   getInitialState: function(){
     return {data: []};
+  },
+  // doing before render component
+  componentWillMount: function(){
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   // get data from server to change data state - setState
   loadCommentsFromServer: function(){
@@ -36,11 +26,6 @@ var CommentBox = React.createClass({
         console.error("data.json", status, err.toString());
       }.bind(this)
     });
-  },
-  // doing before render component
-  componentWillMount: function(){
-    this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   // sent request to server update data
   handleCommentSubmit: function(comment){
@@ -74,17 +59,6 @@ var CommentBox = React.createClass({
   }
 });
 
-var CommentList = React.createClass({
-  render: function() {
-    // data.map callback function name as comment to use
-    var commentNodes = this.props.data.map(function (comment, index){
-      return <Comment key={index} author={comment.author}>{comment.text}</Comment>;
-    });
-
-    return <div className="CommentList">{commentNodes}</div>;
-  }
-});
-
 var CommentForm = React.createClass({
   handleSubmit: function(){
     // refs can get ref value, getDOMNode() can get natvie DOM
@@ -108,6 +82,33 @@ var CommentForm = React.createClass({
         <input type="submit" value="Post" />
       </form>
     );
+  }
+});
+
+var Comment = React.createClass({
+  render: function() {
+    // Markdown to pure string
+    var rawMarkup = converter.makeHtml(this.props.children.toString());
+
+    // dangerouslySetInnerHTML - prevent xss attck - warn not to use
+    return (
+      <div className="Comment">
+        <h2 className="commentAuthor">{this.props.author}</h2>
+        <span dangerouslySetInnerHTML = {{__html: rawMarkup}} />
+      </div>
+    );
+  }
+});
+
+var CommentList = React.createClass({
+  render: function() {
+    // data.map callback function name as comment to use
+    var commentNodes = this.props.data.map(function (comment, index){
+      return <Comment key={index} author={comment.author}>{comment.text}</Comment>;
+    });
+
+    // {} to get and show variable within render function
+    return <div className="CommentList">{commentNodes}</div>;
   }
 });
 
