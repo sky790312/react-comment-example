@@ -1,0 +1,49 @@
+/* line 1, ../sass/test.scss */
+* {
+  box-sizing: border-box;
+}
+
+/* line 3, ../sass/test.scss */
+.commentBox {
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+  padding: 20px;
+}
+
+/* line 10, ../sass/test.scss */
+.common {
+  display: inline-block;
+  width: calc(50% - 10px);
+  height: 100%;
+  vertical-align: middle;
+  border: 1px solid gray;
+}
+/* line 17, ../sass/test.scss */
+.common.commentLeft {
+  margin-right: 20px;
+}
+/* line 21, ../sass/test.scss */
+.common > div {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 20px;
+  border: 1px solid gray;
+}
+
+/* line 30, ../sass/test.scss */
+.comment {
+  position: relative;
+  border-top: 1px solid gray;
+}
+/* line 33, ../sass/test.scss */
+.comment .arrow {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+  cursor: pointer;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid gray;
+}

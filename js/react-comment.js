@@ -51,39 +51,39 @@ var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
-        <h1>its commentBox!</h1>
-        <CommentList data={this.state.data} />
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+        <CommentLeftList data={this.state.data} />
+        <CommentRightList />
+        // <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );
   }
 });
 
-var CommentForm = React.createClass({
-  handleSubmit: function(){
-    // refs can get ref value, getDOMNode() can get natvie DOM
-    var author = this.refs.author.getDOMNode().value.trim(),
-        text = this.refs.text.getDOMNode().value.trim();
+// var CommentForm = React.createClass({
+//   handleSubmit: function(){
+//     // refs can get ref value, getDOMNode() can get natvie DOM
+//     var author = this.refs.author.getDOMNode().value.trim(),
+//         text = this.refs.text.getDOMNode().value.trim();
 
-    if(!author || !text)
-      return false;
+//     if(!author || !text)
+//       return false;
 
-    // sent request to server, using father onCommentSubmit
-    this.props.onCommentSubmit({author: author, text: text});
-    this.refs.author.getDOMNode().value = this.refs.text.getDOMNode().value = '';
+//     // sent request to server, using father onCommentSubmit
+//     this.props.onCommentSubmit({author: author, text: text});
+//     this.refs.author.getDOMNode().value = this.refs.text.getDOMNode().value = '';
 
-    return false;
-  },
-  render: function() {
-    return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Your name" ref="author" />
-        <input type="text" placeholder="say something.." ref="text" />
-        <input type="submit" value="Post" />
-      </form>
-    );
-  }
-});
+//     return false;
+//   },
+//   render: function() {
+//     return (
+//       <form className="commentForm" onSubmit={this.handleSubmit}>
+//         <input type="text" placeholder="Your name" ref="author" />
+//         <input type="text" placeholder="say something.." ref="text" />
+//         <input type="submit" value="Post" />
+//       </form>
+//     );
+//   }
+// });
 
 var Comment = React.createClass({
   render: function() {
@@ -92,23 +92,41 @@ var Comment = React.createClass({
 
     // dangerouslySetInnerHTML - prevent xss attck - warn not to use
     return (
-      <div className="Comment">
-        <h2 className="commentAuthor">{this.props.author}</h2>
+      <div className="comment">
         <span dangerouslySetInnerHTML = {{__html: rawMarkup}} />
+        <span className="arrow" onClick="{this.props.data}" />
       </div>
     );
   }
 });
 
-var CommentList = React.createClass({
+var CommentLeftList = React.createClass({
   render: function() {
     // data.map callback function name as comment to use
     var commentNodes = this.props.data.map(function (comment, index){
-      return <Comment key={index} author={comment.author}>{comment.text}</Comment>;
+      return <Comment key={index}>{comment.text}</Comment>;
     });
 
     // {} to get and show variable within render function
-    return <div className="CommentList">{commentNodes}</div>;
+    return <div className="common commentLeft">
+              <div>
+                <h1>ISIN</h1>
+                <div className="commentLeftList">
+                  {commentNodes}
+                </div>
+              </div>
+           </div>;
+  }
+});
+
+var CommentRightList = React.createClass({
+  render: function() {
+    return <div className="common commentRight">
+              <div>
+                <h1>ISIN</h1>
+                <div className="commentRightList"></div>
+              </div>
+           </div>;
   }
 });
 
