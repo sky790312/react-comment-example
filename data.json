@@ -1,10 +1,12 @@
 [
 	{
-		"author": "Pete Hunt",
-		"text": "This is one comment"
+		"id": "1",
+		"text": "This is first item",
+		"isChoose": "false"
 	},
 	{
-		"author": "Jordan Walke",
-		"text": "This is *another* comment"
+		"id": "2",
+		"text": "This is first item",
+		"isChoose": "false"
 	}
 ]
