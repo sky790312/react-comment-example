@@ -1,12 +1,12 @@
 [
 	{
 		"id": "1",
-		"text": "This is first item",
-		"isChoose": "false"
-	},
-	{
+		"text": "This is first item"
+	}, {
 		"id": "2",
-		"text": "This is first item",
-		"isChoose": "false"
+		"text": "This is second item"
+	}, {
+		"id": "3",
+		"text": "This is third item"
 	}
 ]
