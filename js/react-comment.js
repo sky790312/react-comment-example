@@ -13,36 +13,45 @@ var CommentBox = React.createClass({
     });
   },
   getInitialState: function() {
-    return {data: []};
+    return {
+            data: [],
+            data2: []
+          };
   },
   componentDidMount: function() {
     this.loadCommentsFromServer();
     setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
+  handleItemClick: function() {
+    console.log('ininini')
+  },
   render: function() {
     return (
       <div className="commentBox">
-        <CommentLeftList data={this.state.data} />
-        <CommentRightList />
+        <CommentList data={this.state.data} onItemClick={this.handleItemClick} />
+        <CommentList data={this.state.data2} />
       </div>
     );
   }
 });
 
-var CommentLeftList = React.createClass({
+var CommentList = React.createClass({
+  onItemClick: function(idx) {
+console.log(idx);
+  },
   render: function() {
-    var commentNodes = this.props.data.map(function(comment) {
+    var commentNodes = this.props.data.map(function(comment, idx) {
       return (
-        <Comment key={comment.id}>
+        <Comment key={comment.id} onItemClick={this.onItemClick(idx)}>
           {comment.text}
         </Comment>
       );
-    });
+    }, this);
     return (
-      <div className="common commentLeft">
+      <div className="common">
         <div>
           <h1>ISIN</h1>
-          <div className="commentLeftList">
+          <div>
             {commentNodes}
           </div>
         </div>
@@ -51,29 +60,19 @@ var CommentLeftList = React.createClass({
   }
 });
 
-var CommentRightList = React.createClass({
-  render: function() {
-    return <div className="common commentRight">
-              <div>
-                <h1>ISIN</h1>
-                <div className="commentRightList"></div>
-              </div>
-           </div>;
-  }
-});
-
 var Comment = React.createClass({
   rawMarkup: function() {
     var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
     return { __html: rawMarkup };
   },
-
-
+  // onItemClick: function() {
+  //   this.props.onItemClick();
+  // },
   render: function() {
     return (
       <div className="comment">
         <span dangerouslySetInnerHTML={this.rawMarkup()} />
-        <span className="arrow" />
+        <span className="arrow" onClick={this.props.onItemClick}/>
       </div>
     )
   }
